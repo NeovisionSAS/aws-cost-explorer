@@ -8,12 +8,13 @@ with used services.
 
 ### Prerequisites
 
-You must run the tool with **python2** and [AWS SDK for Python ](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) installed. To install the SDK and ```virtualenv``` you must run ``` pip install boto3 virtualenv ```.
+You must run the tool with **python3** and [AWS SDK for Python ](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) installed. To install the SDK and ```virtualenv``` you must run ``` pip install boto3 virtualenv ```.
 
-Your AWS account credentials must be setup in **$HOME/.aws/credentials** file.
+Your AWS account credentials must either be setup in **$HOME/.aws/credentials** file (and then you will need
+to precise the profile name), or you can put the access key in the environment and then use the option **env-auth**
 
 
-It's recommented to use virtualenv though. As guide, take a look into the following
+You can use virtualenv, or any other manager like conda. As guide for virtualenv, take a look into the following
 command line example:
 
 ```
@@ -47,6 +48,8 @@ optional arguments:
                         (Mutualy exclusive with 'months' option, default: 0)
   --months MONTHS       get data for monthly usage and cost by given months.
                         (Mutualy exclusive with 'days' option, default: 1)
+  --env-auth            Will use AWS_ACCES_KEY_ID and AWS_SECRET_ACCESS_KEY env
+                        variables to initialize the session.
   --disable-total       Do not output total cost per day, or month unit.
 ```
 
@@ -56,21 +59,11 @@ The output is dumped into a **CSV** file which you can specify by **--output** o
 
 Example of an output for costs of current month could looks like the following, where the account id hidden by **XXXXXXXXXXXX**:
 ```
-Time Period,Linked Account,Service,Amount,Unit,Estimated
-09/2018,XXXXXXXXXXXX,AWS Cost Explorer,0.28,USD,True
-09/2018,XXXXXXXXXXXX,AWS Key Management Service,0.5888888936,USD,True
-09/2018,XXXXXXXXXXXX,Amazon Cognito,0,USD,True
-09/2018,XXXXXXXXXXXX,Amazon DynamoDB,0,USD,True
-09/2018,XXXXXXXXXXXX,Amazon EC2 Container Registry (ECR),0.0039653208,USD,True
-09/2018,XXXXXXXXXXXX,EC2 - Other,1.6374118119,USD,True
-09/2018,XXXXXXXXXXXX,Amazon Elastic Compute Cloud - Compute,0.0880057458,USD,True
-09/2018,XXXXXXXXXXXX,Amazon Glacier,0.0000000011,USD,True
-09/2018,XXXXXXXXXXXX,Amazon Route 53,0.501348,USD,True
-09/2018,XXXXXXXXXXXX,Amazon Simple Notification Service,0,USD,True
-09/2018,XXXXXXXXXXXX,Amazon Simple Storage Service,1.0107627425,USD,True
-09/2018,XXXXXXXXXXXX,Amazon Virtual Private Cloud,0.2,USD,True
-09/2018,XXXXXXXXXXXX,AmazonCloudWatch,1.3259258281,USD,True
-09/2018,XXXXXXXXXXXX,Tax,1.07,USD,True
+Time Period,Organization,Project,Amount,Unit,Estimated
+09/2018,XXXXXXXXXXXX,Project$,0.28,USD,True
+09/2018,XXXXXXXXXXXX,Project$InternalTools,0.5888888936,USD,True
+09/2018,XXXXXXXXXXXX,Project$Storage,0,USD,True
+09/2018,XXXXXXXXXXXX,Project$Dadapouet,0,USD,True
 Total Cost: 6.706308343800001,,,,,
 
 ```
